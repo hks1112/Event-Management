@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HAH Events | Catering & Event Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Theme (edit these to restyle) ---------- */
+  :root {
+    --bg: #fbf8f3;         /* ivory */
+    --panel: #ffffff;
+    --deep: #3b2620;       /* espresso brown */
+    --accent: #b5793f;     /* warm gold */
+    --accent-soft: #efe1cd;
+    --text: #2a201c;
+    --muted: #7a6a61;
+    --line: #e4d9cb;
+    --display: "Fraunces", Georgia, serif;
+    --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #201713; --panel: #2a201c; --text: #f3ece5; --muted: #b8a99d;
+      --line: #47372f; --accent-soft: #3a2c22;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #201713; --panel: #2a201c; --text: #f3ece5; --muted: #b8a99d;
+    --line: #47372f; --accent-soft: #3a2c22;
+  }
+
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+  body { background: var(--bg); color: var(--text); font: 400 1.02rem/1.6 var(--body); }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 3px solid var(--accent); outline-offset: 2px;
+  }
+  .wrap { max-width: 66rem; margin: 0 auto; padding: 0 1.5rem; }
+  h1, h2, h3 { font-family: var(--display); line-height: 1.1; color: var(--text); }
+  h2 { font-size: clamp(1.9rem, 4.5vw, 2.7rem); font-weight: 700; margin-bottom: .5rem; }
+  .eyebrow { color: var(--accent); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; font-size: .8rem; }
+  section { padding: 4.5rem 0; }
+  .lede { color: var(--muted); max-width: 34rem; margin-top: .75rem; }
+
+  /* ---------- Navbar ---------- */
+  .navbar { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
+  .navbar .wrap { display: flex; justify-content: space-between; align-items: center; height: 4.25rem; }
+  .brand { font: 700 1.3rem var(--display); text-decoration: none; }
+  .navlinks { display: flex; align-items: center; gap: 1.75rem; }
+  .navlinks a { text-decoration: none; font-weight: 500; font-size: .95rem; }
+  .navlinks a:hover { color: var(--accent); }
+  .nav-cta { background: var(--deep); color: #fff; padding: .6rem 1.25rem; border-radius: 999px; font-weight: 600; font-size: .9rem; text-decoration: none; }
+  .nav-cta:hover { background: var(--accent); }
+
+  /* ---------- Header / hero ---------- */
+  .hero { background: linear-gradient(180deg, var(--accent-soft), var(--bg)); padding: 4.5rem 0; }
+  .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 3rem; align-items: center; }
+  .hero h1 { font-size: clamp(2.4rem, 5.5vw, 3.6rem); font-weight: 700; margin: .5rem 0 1rem; }
+  .hero p { color: var(--muted); max-width: 30rem; margin-bottom: 1.75rem; }
+  .btn { display: inline-block; padding: .85rem 1.6rem; border-radius: 999px; font-weight: 600; text-decoration: none; margin: 0 .75rem .75rem 0; transition: transform .15s ease; }
+  .btn-primary { background: var(--deep); color: #fff; }
+  .btn-ghost { border: 2px solid var(--deep); }
+  .btn:hover { transform: translateY(-2px); }
+  .hero-card { background: var(--panel); border: 1px solid var(--line); border-radius: 1.2rem; padding: 2rem; }
+  .hero-card ul { list-style: none; display: grid; gap: .9rem; }
+  .hero-card li { display: flex; gap: .75rem; align-items: flex-start; }
+  .dot { width: .5rem; height: .5rem; border-radius: 999px; background: var(--accent); margin-top: .55rem; flex-shrink: 0; }
+
+  /* ---------- Services ---------- */
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
+  .service { background: var(--panel); border: 1px solid var(--line); border-radius: 1rem; padding: 1.75rem; }
+  .service h3 { font-size: 1.2rem; margin-bottom: .5rem; }
+  .service p { color: var(--muted); font-size: .95rem; }
+
+  /* ---------- Event details form ---------- */
+  .booking { background: var(--accent-soft); }
+  .booking-shell { background: var(--panel); border: 1px solid var(--line); border-radius: 1.2rem; padding: 2.5rem; margin-top: 2rem; }
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem 1.75rem; margin-top: 1.5rem; }
+  .field { display: flex; flex-direction: column; gap: .4rem; }
+  .field.full { grid-column: 1 / -1; }
+  label { font-weight: 600; font-size: .9rem; }
+  input, select, textarea {
+    font: inherit; padding: .75rem .9rem; border-radius: .6rem;
+    border: 1px solid var(--line); background: var(--bg); color: var(--text);
+  }
+  textarea { resize: vertical; min-height: 5rem; }
+  .submit-row { grid-column: 1 / -1; margin-top: .5rem; }
+  .submit-row button {
+    font: inherit; font-weight: 600; background: var(--deep); color: #fff;
+    border: none; padding: .9rem 2rem; border-radius: 999px; cursor: pointer;
+  }
+  .submit-row button:hover { background: var(--accent); }
+  .note { color: var(--muted); font-size: .85rem; margin-top: .75rem; }
+
+  /* ---------- Stats ---------- */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; text-align: center; }
+  .stats strong { display: block; font: 700 2.2rem var(--display); color: var(--accent); }
+  .stats span { color: var(--muted); font-size: .9rem; }
+
+  /* ---------- Footer ---------- */
+  footer { border-top: 1px solid var(--line); background: var(--panel); }
+  .footer-grid { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 2rem; padding: 3rem 0 2rem; }
+  .footer-grid h3 { font-size: 1.1rem; margin-bottom: .8rem; }
+  .footer-grid p, .footer-grid a { color: var(--muted); text-decoration: none; font-size: .92rem; }
+  .footer-grid ul { list-style: none; display: grid; gap: .5rem; }
+  .footer-bottom { border-top: 1px solid var(--line); padding: 1.25rem 0; color: var(--muted); font-size: .85rem; text-align: center; }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 800px) {
+    .hero .wrap { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    form { grid-template-columns: 1fr; }
+    .stats { grid-template-columns: 1fr 1fr; row-gap: 1.5rem; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .navlinks { gap: 1rem; }
+    .navlinks a:not(.nav-cta) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ---------- Navbar ---------- -->
+<nav class="navbar">
+  <div class="wrap">
+    <a class="brand" href="#top">HAH Events</a>
+    <div class="navlinks">
+      <a href="#services">Services</a>
+      <a href="#booking">Plan an Event</a>
+      <a href="#contact">Contact</a>
+      <a class="nav-cta" href="#booking">Get a Quote</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ---------- Header ---------- -->
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Catering & Event Management</span>
+      <h1>Weddings, catered beautifully from start to finish.</h1>
+      <p>HAH Events handles the menu, the venue, and every detail in between — so you can just enjoy the day.</p>
+      <a class="btn btn-primary" href="#booking">Submit Event Details</a>
+      <a class="btn btn-ghost" href="#services">View Services</a>
+    </div>
+    <div class="hero-card">
+      <h3>Why plan with us</h3>
+      <ul>
+        <li><span class="dot"></span><span>Full-service catering for 50 to 1,000+ guests</span></li>
+        <li><span class="dot"></span><span>In-house decor, staffing, and venue coordination</span></li>
+        <li><span class="dot"></span><span>Custom menus for any cuisine or dietary need</span></li>
+        <li><span class="dot"></span><span>One planner assigned to your event, start to finish</span></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<!-- ---------- Main ---------- -->
+<main>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="wrap">
+      <span class="eyebrow">What we offer</span>
+      <h2>Event services</h2>
+      <p class="lede">Everything needed to host a wedding, from the first tasting to the last dance.</p>
+      <div class="services-grid">
+        <div class="service">
+          <h3>Menu & Catering</h3>
+          <p>Custom multi-course menus, live counters, and dessert stations tailored to your guest list.</p>
+        </div>
+        <div class="service">
+          <h3>Venue Coordination</h3>
+          <p>We work with your chosen venue or help you find and book one that fits your vision.</p>
+        </div>
+        <div class="service">
+          <h3>Decor & Staging</h3>
+          <p>Florals, lighting, seating layout, and stage design handled by our in-house decor team.</p>
+        </div>
+        <div class="service">
+          <h3>Event Staffing</h3>
+          <p>Servers, bartenders, and a dedicated coordinator present on the day of your event.</p>
+        </div>
+        <div class="service">
+          <h3>Guest Management</h3>
+          <p>RSVP tracking, seating charts, and headcount coordination with your caterer and venue.</p>
+        </div>
+        <div class="service">
+          <h3>Day-of Planning</h3>
+          <p>A detailed run-of-show and an on-site planner to manage timing and vendors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section>
+    <div class="wrap stats">
+      <div><strong>450+</strong><span>Weddings catered</span></div>
+      <div><strong>12</strong><span>Years in business</span></div>
+      <div><strong>1,000</strong><span>Max guest capacity</span></div>
+      <div><strong>4.9/5</strong><span>Average client rating</span></div>
+    </div>
+  </section>
+
+  <!-- Marriage Event Details / Booking form -->
+  <section id="booking" class="booking">
+    <div class="wrap">
+      <span class="eyebrow">Marriage Event Details</span>
+      <h2>Tell us about your wedding</h2>
+      <p class="lede">Share your event details below and our planning team will get back to you with a custom quote.</p>
+
+      <div class="booking-shell">
+        <form>
+          <div class="field">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" placeholder="Bride & groom's names" required>
+          </div>
+          <div class="field">
+            <label for="contact-person">Contact person</label>
+            <input type="text" id="contact-person" name="contact-person" placeholder="Who should we reach out to?" required>
+          </div>
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" placeholder="+1 555 010 0123" required>
+          </div>
+          <div class="field">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+          </div>
+          <div class="field">
+            <label for="event-date">Event date</label>
+            <input type="date" id="event-date" name="event-date" required>
+          </div>
+          <div class="field">
+            <label for="event-type">Event type</label>
+            <select id="event-type" name="event-type" required>
+              <option value="">Select an event type</option>
+              <option>Wedding Ceremony</option>
+              <option>Wedding Reception</option>
+              <option>Engagement Party</option>
+              <option>Mehndi / Sangeet</option>
+              <option>Walima / Reception Dinner</option>
+              <option>Anniversary Celebration</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="guests">Number of guests</label>
+            <input type="number" id="guests" name="guests" min="1" placeholder="e.g. 250" required>
+          </div>
+          <div class="field">
+            <label for="venue">Venue</label>
+            <input type="text" id="venue" name="venue" placeholder="Venue name or address, if known">
+          </div>
+          <div class="field full">
+            <label for="notes">Additional notes</label>
+            <textarea id="notes" name="notes" placeholder="Cuisine preferences, budget range, theme, or anything else we should know"></textarea>
+          </div>
+          <div class="submit-row">
+            <button type="submit">Submit Event Details</button>
+            <p class="note">This form is for demonstration only and does not send data anywhere yet.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ---------- Footer ---------- -->
+<footer id="contact">
+  <div class="wrap footer-grid">
+    <div>
+      <h3>HAH Events</h3>
+      <p>Full-service catering and event management for weddings and celebrations of every size.</p>
+    </div>
+    <div>
+      <h3>Contact</h3>
+      <ul>
+        <li><a href="tel:+15550109988">+1 555 010 9988</a></li>
+        <li><a href="mailto:hello@hahevents.example">hello@hahevents.example</a></li>
+        <li><span>24 Blossom Court, Garden District</span></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Quick links</h3>
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#booking">Plan an Event</a></li>
+        <li><a href="#top">Back to top</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">&copy; 2026 HAH Events. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
